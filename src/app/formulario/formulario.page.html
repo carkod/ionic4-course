@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
+    <ion-title> Formulario </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm">
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input
+        formControlName="username"
+        type="text"
+        [class.invalid]="registerForm.controls.username.invalid && (registerForm.controls.username.dirty || submitAttempt)"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item color="danger" *ngIf="!registerForm.controls.username.valid  && (registerForm.controls.username.dirty || submitAttempt)">
+      <p>Introduzca un usuario válido.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input
+        formControlName="email"
+        type="text"
+        [class.invalid]="registerForm.controls.email.invalid && (registerForm.controls.email.dirty || submitAttempt)"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item color="danger" *ngIf="registerForm.controls.email.invalid  && (registerForm.controls.email.dirty || submitAttempt)">
+      <p>El email introducido no es válido.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input
+        formControlName="password"
+        type="password"
+        [class.invalid]="registerForm.controls.password.invalid && (registerForm.controls.password.dirty || submitAttempt)"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Repite contraseña</ion-label>
+      <ion-input
+        formControlName="repeatPassword"
+        type="password"
+        [class.invalid]="registerForm.controls.repeatPassword.invalid && (registerForm.controls.repeatPassword.dirty || submitAttempt)"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item color="danger" *ngIf="registerForm.controls.repeatPassword.errors?.NoPasswordMatch && (registerForm.controls.repeatPassword.dirty || submitAttempt)" >
+      <p>La contraseña no coincide.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-radio-group formControlName="gender">
+        <ion-list-header> <ion-label>Género</ion-label> </ion-list-header>
+
+        <ion-item>
+          <ion-label>Hombre</ion-label>
+          <ion-radio slot="start" value="h"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Mujer</ion-label>
+          <ion-radio slot="start" value="m" checked></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Otro</ion-label>
+          <ion-radio slot="start" value="o"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+
+
+    <ion-item color="danger" *ngIf="registerForm.controls.gender.invalid  && (registerForm.controls.gender.dirty || submitAttempt)">
+        <p>Seleccione un género.</p>
+      </ion-item>
+    
+
+    <ion-item>
+      <ion-label position="floating">Orientación sexual</ion-label>
+      <!-- <ion-input formControlName="orientation" type="number" [class.invalid]="registerForm.controls.orientation.valid && (registerForm.controls.orientation.dirty || submitAttempt)"></ion-input> -->
+
+      <ion-select formControlName="orientation" placeholder="Elegir uno">
+        <ion-select-option *ngFor="let sex of sexualOrientationList" value="{{sex.value}}">{{sex.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tipo de relación buscada</ion-label>
+      <ion-select formControlName="relationship" placeholder="Elegir uno">
+        <ion-select-option value="open">Relación abierta</ion-select-option>
+        <ion-select-option value="flirt">Flirteo</ion-select-option>
+        <ion-select-option value="marriage">Matrimonio</ion-select-option>
+        <ion-select-option value="serious">Relación seria</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Acepto las condiciones de uso</ion-label>
+      <ion-checkbox slot="end" formControlName="conditions"></ion-checkbox>
+    </ion-item>
+
+    <ion-button disabled="{{registerForm.invalid && registerForm.controls.conditions.value}}" expand="full" color="primary" (click)="save()">Enviar</ion-button>
+  </form>
+</ion-content>
